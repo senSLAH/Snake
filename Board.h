@@ -9,7 +9,7 @@
 class Board : public Menu {
 public:
     explicit Board(GameMode mode);
-    void draw(sf::RenderWindow &win) const;
+    void draw(sf::RenderWindow &win);
     void handleEvent(sf::Event &e);
     short position_x(int x);
     short position_y(int y);

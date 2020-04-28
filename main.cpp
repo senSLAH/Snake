@@ -2,6 +2,10 @@
 #include "Board.h"
 #include <SFML/Graphics.hpp>
 
+//
+//to do:
+//    position х
+
 int main()
 {
     srand(time(0));
@@ -10,7 +14,7 @@ int main()
     sf::RenderWindow win(sf::VideoMode(screen_width, screen_height), "Snake");
     win.setVerticalSyncEnabled(true);
 
-    Board map(GOD);
+    Board map(HERO);
 
     while (win.isOpen())
     {
