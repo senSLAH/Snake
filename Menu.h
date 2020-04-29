@@ -2,13 +2,14 @@
 #define SNAKE_MENU_H
 
 #include <SFML/Graphics.hpp>
+#include "SnakeHead.h"
 #include <string>
 #include <vector>
 
 enum GameMode:unsigned short {NORMAL, HERO, GOD};
 enum GameState:unsigned short {RUNNING, SETTINGS, HOW_TO_PLAY, START_SCREEN, FINISHED_WIN, FINISHED_LOSS};
 
-class Menu{
+class Menu : public SnakeHead{
 protected:
     GameMode Mode;
     GameState last_state;
@@ -29,8 +30,9 @@ public:
     void start_screen();
     void settings();
     void how_to_play();
+    void game_play();
     void set_state(short & state);
-
+    GameState get_state() const;
 
 };
 

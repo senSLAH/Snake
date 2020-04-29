@@ -1,5 +1,7 @@
 #include <iostream>
-#include "Board.h"
+#include "ScreenController.h"
+#include "Menu.h"
+
 #include <SFML/Graphics.hpp>
 
 //
@@ -14,7 +16,7 @@ int main()
     sf::RenderWindow win(sf::VideoMode(screen_width, screen_height), "Snake");
     win.setVerticalSyncEnabled(true);
 
-    Board map(HERO);
+    ScreenController map(HERO);
 
     while (win.isOpen())
     {
@@ -28,8 +30,12 @@ int main()
             }
             map.handleEvent(event);
         }
-        win.clear(sf::Color(105,105,105));
-        map.draw(win);
+        if (map.get_state() == RUNNING)
+            win.clear(sf::Color::Black);
+        else
+            win.clear(sf::Color(105,105,105));
+
+        map.draw_menu(win);
         win.display();
     }
 

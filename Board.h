@@ -1,20 +1,21 @@
 #ifndef SNAKE_BOARD_H
 #define SNAKE_BOARD_H
 
-#include "Menu.h"
-#include <SFML/Graphics.hpp>
+#include <vector>
 
+class Board {
+protected:
+    short food_count;
+    std::vector<int> food_position_x;
+    std::vector<int> food_position_y;
 
-
-class Board : public Menu {
 public:
-    explicit Board(GameMode mode);
-    void draw(sf::RenderWindow &win);
-    void handleEvent(sf::Event &e);
-    short position_x(int x);
-    short position_y(int y);
+    Board();
+    void random_food_position();
+    void draw_food() const;
+
 };
 
 
 
-#endif
+#endif //SNAKE_BOARD_H

@@ -5,7 +5,7 @@
 Menu::Menu(GameMode &mode)
 {
     Mode = mode;
-    current_state = last_state = START_SCREEN;
+    current_state = START_SCREEN;
     if (!font.loadFromFile("../Fonts/Arial.ttf"))
     {
         std::cerr << strerror(errno) << std::endl;
@@ -59,6 +59,7 @@ void Menu::set_state(short &state)
         last_state = current_state;
         current_state = static_cast<GameState>(state);
     }
+
 }
 
 void Menu::start_screen()
@@ -137,4 +138,14 @@ void Menu::how_to_play()
 {
     sprite_keyboard_arrows.setTexture(keyboard_arrows);
     sprite_keyboard_arrows.setPosition(300,300);
+}
+
+void Menu::game_play()
+{
+
+}
+
+GameState Menu::get_state() const
+{
+    return current_state;
 }
