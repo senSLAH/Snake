@@ -1,8 +1,11 @@
 #include <iostream>
 #include "ScreenController.h"
+#include "Board.h"
 
-ScreenController::ScreenController(GameMode mode) : Menu(mode)
+ScreenController::ScreenController(GameMode mode)
+:Menu(mode)
 {
+    start_time = 0;
 }
 
 void ScreenController::draw_menu(sf::RenderWindow &win)
@@ -40,8 +43,15 @@ void ScreenController::draw_gameplay(sf::RenderWindow &win)
 {
     update();
     win.draw(angry_snake);
-
     win.draw(middle);
+    interval = (clock() - start_time);
+    std::cout << interval << std::endl;
+    if(interval > 300000)
+    {
+        add_food();
+        start_time = clock();
+    }
+    draw_food(win);
     //win.draw(tail);
 }
 

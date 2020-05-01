@@ -2,20 +2,36 @@
 #define SNAKE_BOARD_H
 
 #include <vector>
+#include <SFML/Graphics.hpp>
 
-class Board {
-protected:
+enum FoodType : short { APPLE, MUSHROOM, BOMB };
+
+struct Food
+{
+    short food_position_x;
+    short food_position_y;
+    FoodType type;
+};
+
+class Board{
+    int current_time;
+    int past_time;
+    int time;
     short food_count;
-    std::vector<int> food_position_x;
-    std::vector<int> food_position_y;
+    Food f;
+    sf::Texture apple_texture;
+    sf::Sprite appple;
+    std::vector<Food> food;
 
 public:
     Board();
-    void random_food_position();
-    void draw_food() const;
+    void add_food();
+    void remove_food();
+    void timer(int ms);
+    void draw_food(sf::RenderWindow &win);
 
 };
 
 
 
-#endif //SNAKE_BOARD_H
+#endif

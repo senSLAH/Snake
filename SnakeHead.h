@@ -29,6 +29,7 @@ public:
     SnakeHead();
     void set_pressed_button(short &key);
     void head_rotate_func(short &key);
+    void check_edges();
     void tail_position();
     void update();
 };

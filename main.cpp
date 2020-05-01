@@ -1,6 +1,8 @@
 #include <iostream>
 #include "ScreenController.h"
 #include "Menu.h"
+#include "Board.h"
+
 
 #include <SFML/Graphics.hpp>
 
@@ -17,6 +19,7 @@ int main()
     win.setVerticalSyncEnabled(true);
 
     ScreenController map(HERO);
+
 
     while (win.isOpen())
     {
@@ -36,6 +39,7 @@ int main()
             win.clear(sf::Color(105,105,105));
 
         map.draw_menu(win);
+        //food.draw_food(win);
         win.display();
     }
 

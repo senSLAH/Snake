@@ -3,6 +3,12 @@
 
 SnakeHead::SnakeHead() : tail(sf::CircleShape(20, 3))
 {
+    if (!head_texture.loadFromFile("../IMG/viper_head.png"))
+    {
+        std::cerr << strerror(errno) << std::endl;
+        abort();
+    }
+
     key_pressed = 72;
     head_rotate = RIGHT;
     length = 3;
@@ -17,11 +23,6 @@ SnakeHead::SnakeHead() : tail(sf::CircleShape(20, 3))
     tail.setPosition(360,snake_position_y);
     tail.setFillColor(sf::Color::Green);
 
-    if (!head_texture.loadFromFile("../IMG/viper_head.png"))
-    {
-        std::cerr << strerror(errno) << std::endl;
-        abort();
-    }
     angry_snake.setTexture(head_texture);
     angry_snake.setScale(0.2,0.2);
     angry_snake.setRotation(head_rotate);
@@ -32,7 +33,7 @@ SnakeHead::SnakeHead() : tail(sf::CircleShape(20, 3))
 
 void SnakeHead::set_pressed_button(short &key)
 {
-    std::cout << key;
+    //std::cout << key;
 
     head_rotate_func(key);
 }
@@ -76,6 +77,31 @@ void SnakeHead::update()
         position_x.push_back(snake_position_x);
         position_y.push_back(snake_position_y);
     }
+
+    check_edges();
+
+    if (head_rotate == LEFT)
+        snake_position_x -= speed;
+
+    if (head_rotate == RIGHT)
+        snake_position_x += speed;
+
+    if (head_rotate == UP)
+        snake_position_y -= speed;
+
+    if (head_rotate == DOWN)
+        snake_position_y += speed;
+
+
+    //std::cout <<snake_position_y << std::endl;
+
+    middle.setPosition(position_x[0], position_y[0]);
+    angry_snake.setRotation(head_rotate);
+    angry_snake.setPosition(snake_position_x, snake_position_y);
+}
+
+void SnakeHead::check_edges()
+{
     if (snake_position_y > 600)
         snake_position_y = 0;
 
@@ -91,29 +117,12 @@ void SnakeHead::update()
     {
         snake_position_x = 800;
     }
-
-    if (head_rotate == LEFT)
-        snake_position_x -= speed;
-
-    if (head_rotate == RIGHT)
-        snake_position_x += speed;
-
-    if (head_rotate == UP)
-        snake_position_y -= speed;
-
-    if (head_rotate == DOWN)
-        snake_position_y += speed;
-
-
-    std::cout <<snake_position_y << std::endl;
-
-    middle.setPosition(position_x[0], position_y[0]);
-    angry_snake.setRotation(head_rotate);
-    angry_snake.setPosition(snake_position_x, snake_position_y);
 }
 
 void SnakeHead::tail_position()
 {
 
 }
+
+
 

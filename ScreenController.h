@@ -6,7 +6,9 @@
 
 
 
-class ScreenController : public Menu {
+class ScreenController : public Menu{
+    int start_time;
+    unsigned long interval;
 public:
     explicit ScreenController(GameMode mode);
     void draw_menu(sf::RenderWindow &win);
