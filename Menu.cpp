@@ -34,6 +34,14 @@ Menu::Menu(GameMode &mode)
     txt_back_button.setString("< Back");
     txt_back_button.setPosition(10,10);
 
+    txt_score.setFont(font);
+    txt_score.setFillColor(sf::Color::White);
+    txt_score.setString("Score: ");
+    txt_score.setPosition(665,10);
+
+    txt_score_number.setFont(font);
+    txt_score_number.setFillColor(sf::Color::White);
+    txt_score_number.setPosition(760,10);
 }
 
 std::string Menu::get_string_mode(GameMode & mode) const
@@ -64,7 +72,6 @@ void Menu::set_state(short &state)
 
 void Menu::start_screen()
 {
-    //sf::Color(148,0,0)
 
     if(Mode != GOD)
         sprite_logo.setTexture(logo_cute_snake);

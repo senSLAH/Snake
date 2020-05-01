@@ -39,7 +39,6 @@ int main()
             win.clear(sf::Color(105,105,105));
 
         map.draw_menu(win);
-        //food.draw_food(win);
         win.display();
     }
 

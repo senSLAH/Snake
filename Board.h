@@ -14,8 +14,8 @@ struct Food
 };
 
 class Board{
-    int current_time;
-    int past_time;
+
+protected:
     int time;
     short food_count;
     Food f;
@@ -26,8 +26,9 @@ class Board{
 public:
     Board();
     void add_food();
-    void remove_food();
-    void timer(int ms);
+    void remove_food(int position = 1);
+    int get_position_x(int i);
+    int get_position_y(int i);
     void draw_food(sf::RenderWindow &win);
 
 };

@@ -14,7 +14,7 @@ public:
     void draw_menu(sf::RenderWindow &win);
     void draw_gameplay(sf::RenderWindow &win);
     void handleEvent(sf::Event &e);
-    short position_x(int x);
+    short position_x();
     short position_y(int y);
 };
 

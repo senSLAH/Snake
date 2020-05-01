@@ -17,6 +17,8 @@ protected:
     sf::Font font;
     sf::Text txt;
     sf::Text txt_back_button;
+    sf::Text txt_score;
+    sf::Text txt_score_number;
     std::vector<sf::Text> txt_vec;
     sf::Texture logo_cute_snake;
     sf::Texture logo_angry_snake;

@@ -1,4 +1,5 @@
 #include <iostream>
+#include "sstream"
 #include "ScreenController.h"
 #include "Board.h"
 
@@ -15,8 +16,15 @@ void ScreenController::draw_menu(sf::RenderWindow &win)
         win.draw(sprite_logo);
 
     if (current_state == RUNNING)
-        draw_gameplay(win);
+    {
+        std::stringstream string_num;
+        string_num << score << std::endl;
 
+        txt_score_number.setString(string_num.str());
+        win.draw(txt_score);
+        win.draw(txt_score_number);
+        draw_gameplay(win);
+    }
     if (current_state != START_SCREEN)
         win.draw(txt_back_button);
 
@@ -42,32 +50,29 @@ void ScreenController::draw_menu(sf::RenderWindow &win)
 void ScreenController::draw_gameplay(sf::RenderWindow &win)
 {
     update();
-    win.draw(angry_snake);
-    win.draw(middle);
+    draw_snake(win);
     interval = (clock() - start_time);
-    std::cout << interval << std::endl;
-    if(interval > 300000)
+    if(interval > 400000)
     {
         add_food();
         start_time = clock();
     }
     draw_food(win);
-    //win.draw(tail);
 }
 
 void ScreenController::handleEvent(sf::Event &event)
 {
     if(event.type == sf::Event::MouseButtonPressed)
     {
-        std::cout << event.mouseButton.x;
-        std::cout << "\n";
-        std::cout << event.mouseButton.y;
-        std::cout << "\n";
-        std::cout << "\n";
+//        std::cout << event.mouseButton.x;
+//        std::cout << "\n";
+//        std::cout << event.mouseButton.y;
+//        std::cout << "\n";
+//        std::cout << "\n";
 
         short temp = position_y(event.mouseButton.y);
-        short y = event.mouseButton.y;
-        short x = event.mouseButton.x;
+        int y = event.mouseButton.y;
+        int x = event.mouseButton.x;
 
         if (x < 105 && y < 43 )
             current_state = last_state;
