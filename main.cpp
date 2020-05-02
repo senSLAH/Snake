@@ -18,6 +18,7 @@ int main()
     sf::RenderWindow win(sf::VideoMode(screen_width, screen_height), "Snake");
     win.setVerticalSyncEnabled(true);
 
+
     ScreenController map(HERO);
 
 

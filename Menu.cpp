@@ -57,19 +57,6 @@ std::string Menu::get_string_mode(GameMode & mode) const
     }
 }
 
-void Menu::set_state(short &state)
-{
-    if(current_state == SETTINGS)
-    {
-        Mode = static_cast<GameMode>(state);
-        current_state = last_state;
-    } else{
-        last_state = current_state;
-        current_state = static_cast<GameState>(state);
-    }
-
-}
-
 void Menu::start_screen()
 {
 
@@ -141,18 +128,52 @@ void Menu::settings()
     txt_vec.push_back(txt);
 }
 
+void Menu::finished()
+{
+    txt.setString("Your score: ");
+    txt.setPosition(300,300);
+    txt.setFillColor(sf::Color::Yellow);
+
+    txt_vec.push_back(txt);
+
+}
+
 void Menu::how_to_play()
 {
     sprite_keyboard_arrows.setTexture(keyboard_arrows);
     sprite_keyboard_arrows.setPosition(300,300);
 }
 
-void Menu::game_play()
+void Menu::set_state(short & state)
 {
+    if(current_state == SETTINGS)
+    {
+        Mode = static_cast<GameMode>(state);
+        current_state = last_state;
+        if (Mode == NORMAL)
+        {
+            speed = 4;
+        }
 
+        if (Mode == HERO)
+        {
+            speed = 5;
+        }
+        if (Mode == GOD)
+        {
+            speed = 7;
+            middle.setFillColor(sf::Color::Red);
+        }
+    }
+    else
+    {
+        last_state = current_state;
+        current_state = static_cast<GameState>(state);
+    }
 }
 
-GameState Menu::get_state() const
-{
-    return current_state;
-}
+
+
+
+
+

@@ -13,21 +13,17 @@ class SnakeHead : public Board {
 protected:
     int speed;
     int key_pressed;
-    int snake_position_x;
-    int snake_position_y;
+    int snake_position_x_y[2];
     int length;
     int score;
-    int time_after_food;
-    unsigned long interval_after_food;
     HeadRotate head_rotate;
     HeadRotate past_head_rotate;
-
     std::vector<short> position_x;
     std::vector<short> position_y;
-
     sf::Texture head_texture;
     sf::RectangleShape middle;
     sf::CircleShape tail;
+
 public:
     SnakeHead();
     void set_pressed_button(short &key);

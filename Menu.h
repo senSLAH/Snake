@@ -6,14 +6,9 @@
 #include <string>
 #include <vector>
 
-enum GameMode:unsigned short {NORMAL, HERO, GOD};
-enum GameState:unsigned short {RUNNING, SETTINGS, HOW_TO_PLAY, START_SCREEN, FINISHED_WIN, FINISHED_LOSS};
 
 class Menu : public SnakeHead{
 protected:
-    GameMode Mode;
-    GameState last_state;
-    GameState current_state;
     sf::Font font;
     sf::Text txt;
     sf::Text txt_back_button;
@@ -31,11 +26,9 @@ public:
     std::string get_string_mode(GameMode & mode) const;
     void start_screen();
     void settings();
+    void finished();
     void how_to_play();
-    void game_play();
     void set_state(short & state);
-    GameState get_state() const;
-
 };
 
 

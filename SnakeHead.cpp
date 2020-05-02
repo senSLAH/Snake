@@ -1,5 +1,6 @@
 #include "SnakeHead.h"
 #include "Board.h"
+#include "Menu.h"
 #include <iostream>
 
 SnakeHead::SnakeHead() : tail(sf::CircleShape(20, 3))
@@ -13,16 +14,16 @@ SnakeHead::SnakeHead() : tail(sf::CircleShape(20, 3))
     score = 0;
     key_pressed = 72;
     past_head_rotate = head_rotate = RIGHT;
-    length = 20;
+    length = 10;
 
-    snake_position_x = 300;
-    snake_position_y = 300;
+    snake_position_x_y[0] = 300;
+    snake_position_x_y[1] = 300;
 
     middle = sf::RectangleShape(sf::Vector2f(20, 20));
     middle.setPosition(280, 300);
-    middle.setFillColor(sf::Color::Red);
+    middle.setFillColor(sf::Color::Green);
 
-    speed = 5;
+    speed = 4;
 }
 
 void SnakeHead::set_pressed_button(short &key)
@@ -67,57 +68,72 @@ void SnakeHead::update()
     }
     if (head_rotate == LEFT)
     {
-        position_x.push_back(snake_position_x);
-        position_y.push_back(snake_position_y);
+        position_x.push_back(snake_position_x_y[0]);
+        position_y.push_back(snake_position_x_y[1]);
     }
     if (head_rotate == RIGHT)
     {
-        position_x.push_back(snake_position_x);
-        position_y.push_back(snake_position_y);
+        position_x.push_back(snake_position_x_y[0]);
+        position_y.push_back(snake_position_x_y[1]);
     }
     if (head_rotate == UP)
     {
-        position_x.push_back(snake_position_x);
-        position_y.push_back(snake_position_y);
+        position_x.push_back(snake_position_x_y[0]);
+        position_y.push_back(snake_position_x_y[1]);
     }
     if (head_rotate == DOWN)
     {
-        position_x.push_back(snake_position_x);
-        position_y.push_back(snake_position_y);
+        position_x.push_back(snake_position_x_y[0]);
+        position_y.push_back(snake_position_x_y[1]);
     }
 
     check_edges();
 
     if (head_rotate == LEFT)
-        snake_position_x -= speed;
+        snake_position_x_y[0] -= speed;
 
     if (head_rotate == RIGHT)
-        snake_position_x += speed;
+        snake_position_x_y[0] += speed;
 
     if (head_rotate == UP)
-        snake_position_y -= speed;
+        snake_position_x_y[1] -= speed;
 
     if (head_rotate == DOWN)
-        snake_position_y += speed;
+        snake_position_x_y[1] += speed;
 
 }
 
 void SnakeHead::check_edges()
 {
-    if (snake_position_y > 600)
-        snake_position_y = 0;
-
-    if (snake_position_x > 800)
-        snake_position_x = 0;
-
-    if (snake_position_y < 0)
+    if (snake_position_x_y[1] > 600)
     {
-        snake_position_y = 600;
+        if (Mode != GOD)
+            snake_position_x_y[1] = 0;
+        else
+            current_state = FINISHED;
     }
 
-    if (snake_position_x < 0)
+    if (snake_position_x_y[0] > 800)
     {
-        snake_position_x = 800;
+        if (Mode != GOD)
+            snake_position_x_y[0] = 0;
+        else
+            current_state = FINISHED;
+    }
+    if (snake_position_x_y[1] < 0)
+    {
+        if(Mode != GOD)
+            snake_position_x_y[1] = 600;
+        else
+            current_state = FINISHED;
+    }
+
+    if (snake_position_x_y[0] < 0)
+    {
+        if(Mode != GOD)
+            snake_position_x_y[0] = 800;
+        else
+            current_state = FINISHED;
     }
 }
 
@@ -129,8 +145,7 @@ void SnakeHead::draw_snake(sf::RenderWindow &win)
 
         if(position_x[i] == position_x[length] && position_y[i] == position_y[length] && length > 20)
         {
-
-            std::cout << "BAN! \n";
+            set_state(FINISHED);
         }
         else{
             middle.setPosition(position_x[i], position_y[i]);
@@ -170,10 +185,23 @@ void SnakeHead::check_collisions_food()
 
         if (max_position_x - min_position_x < 20 && max_position_y - min_position_y < 20)
         {
+            if (food[i].type == APPLE)
+            {
+                length += 1;
+                ++score;
+            }
+            if(food[i].type == MUSHROOM)
+            {
+                score -=3;
+                length -= 1;
+            }
+            if(food[i].type == TNT)
+            {
+                set_state(FINISHED);
+            }
+
             add_food();
             remove_food(i);
-            length += 1;
-            ++score;
         }
     }
 }

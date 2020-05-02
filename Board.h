@@ -4,7 +4,9 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-enum FoodType : short { APPLE, MUSHROOM, BOMB };
+enum FoodType : short { APPLE, MUSHROOM, TNT };
+enum GameMode:unsigned short {NORMAL, HERO, GOD};
+enum GameState:unsigned short {RUNNING, SETTINGS, HOW_TO_PLAY, START_SCREEN, FINISHED};
 
 struct Food
 {
@@ -16,20 +18,31 @@ struct Food
 class Board{
 
 protected:
+    GameMode Mode;
+    GameState last_state;
+    GameState current_state;
+
     int time;
+    int start_time;
     short food_count;
     Food f;
     sf::Texture apple_texture;
+    sf::Texture mushroom_texture;
+    sf::Texture TNT_texture;
     sf::Sprite appple;
+    sf::Sprite mushroom;
+    sf::Sprite tnt;
     std::vector<Food> food;
 
 public:
     Board();
     void add_food();
     void remove_food(int position = 1);
-    int get_position_x(int i);
-    int get_position_y(int i);
     void draw_food(sf::RenderWindow &win);
+    void clear_wektor();
+    int how_many_food();
+    virtual void set_state(GameState state);
+    GameState get_state() const;
 
 };
 
