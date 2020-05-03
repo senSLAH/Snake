@@ -16,15 +16,14 @@ struct Food
 };
 
 class Board{
-
 protected:
     GameMode Mode;
     GameState last_state;
     GameState current_state;
-
     int time;
     int start_time;
     short food_count;
+    int health;
     Food f;
     sf::Texture apple_texture;
     sf::Texture mushroom_texture;
@@ -32,6 +31,8 @@ protected:
     sf::Sprite appple;
     sf::Sprite mushroom;
     sf::Sprite tnt;
+    sf::RectangleShape line[4];
+    sf::Color border_color;
     std::vector<Food> food;
 
 public:
@@ -39,7 +40,6 @@ public:
     void add_food();
     void remove_food(int position = 1);
     void draw_food(sf::RenderWindow &win);
-    void clear_wektor();
     int how_many_food();
     virtual void set_state(GameState state);
     GameState get_state() const;

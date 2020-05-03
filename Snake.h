@@ -1,5 +1,5 @@
-#ifndef SNAKE_SNAKEHEAD_H
-#define SNAKE_SNAKEHEAD_H
+#ifndef SNAKE_SNAKE_H
+#define SNAKE_SNAKE_H
 
 
 #include <vector>
@@ -7,9 +7,9 @@
 #include "Board.h"
 #include <SFML/Graphics.hpp>
 
-enum HeadRotate : short {LEFT = 90, RIGHT = 270 , UP = 180, DOWN = 0};
+enum HeadRotate : short {LEFT, RIGHT, UP, DOWN};
 
-class SnakeHead : public Board {
+class Snake : public Board {
 protected:
     int speed;
     int key_pressed;
@@ -21,12 +21,10 @@ protected:
     std::vector<short> position_x;
     std::vector<short> position_y;
     sf::Texture head_texture;
-    sf::RectangleShape middle;
-    sf::CircleShape tail;
+    sf::RectangleShape snake;
 
 public:
-    SnakeHead();
-    void set_pressed_button(short &key);
+    Snake();
     void head_rotate_func(short &key);
     void check_edges();
     void check_collisions_food();

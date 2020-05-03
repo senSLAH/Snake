@@ -24,17 +24,27 @@ void ScreenController::draw_menu(sf::RenderWindow &win)
         }
         else
         {
-            std::stringstream string_num;
+            std::stringstream string_num, string_health;
             string_num << score << std::endl;
+            string_health << health << std::endl;
             txt_score_number.setString(string_num.str());
+            txt_health_number.setString(string_health.str());
         }
-
 
         win.draw(txt_score);
         win.draw(txt_score_number);
+        if (Mode != NORMAL && current_state == RUNNING)
+        {
+            win.draw(txt_health);
+            win.draw(txt_health_number);
+        }
+
         if (current_state != FINISHED)
+        {
             draw_gameplay(win);
-        else {
+        }
+        else
+        {
             txt_score.setString("Your score :");
             txt_score.setPosition(290, 300);
             txt_score_number.setFillColor(sf::Color::Green);
@@ -56,6 +66,7 @@ void ScreenController::draw_menu(sf::RenderWindow &win)
     {
         how_to_play();
         win.draw(sprite_keyboard_arrows);
+        win.draw(instruction);
     }
 
     for (const auto & i : txt_vec)
@@ -66,6 +77,11 @@ void ScreenController::draw_menu(sf::RenderWindow &win)
 
 void ScreenController::draw_gameplay(sf::RenderWindow &win)
 {
+    for (auto & i : line)
+    {
+        i.setFillColor(border_color);
+        win.draw(i);
+    }
     check_reset = false;
     update();
     draw_snake(win);
@@ -81,13 +97,8 @@ void ScreenController::draw_gameplay(sf::RenderWindow &win)
 
 void ScreenController::handleEvent(sf::Event &event)
 {
-    if(event.type == sf::Event::MouseButtonPressed) {
-//        std::cout << event.mouseButton.x;
-//        std::cout << "\n";
-//        std::cout << event.mouseButton.y;
-//        std::cout << "\n";
-//        std::cout << "\n";
-
+    if(event.type == sf::Event::MouseButtonPressed)
+    {
         short temp = position_y(event.mouseButton.y);
         int y = event.mouseButton.y;
         int x = event.mouseButton.x;
@@ -98,7 +109,7 @@ void ScreenController::handleEvent(sf::Event &event)
             if (!check_reset)
                 reset();
         }
-        else
+        else if (x > 328 && x < 512 && y > 304 && y < 436)
         {
             set_state(temp);
         }
@@ -107,29 +118,14 @@ void ScreenController::handleEvent(sf::Event &event)
     if(event.type == sf::Event::KeyPressed && current_state == RUNNING)
     {
         short k = event.key.code;
-        set_pressed_button(k);
+        head_rotate_func(k);
     }
 }
 
-//short ScreenController::position_x(int x)
-//{
-//    x -= 270;
-//    for (int i = 0; i < 5; ++i)
-//    {
-//        if(x <= 40)
-//            return i;
-//        else
-//        {
-//            x -= 50;
-//        }
-//    }
-//}
-//
 short ScreenController::position_y(int y)
 {
     y -= 310;
-
-    for (int i = 0; i < 3; ++i)
+    for (short i = 0; i < 3; ++i)
     {
         if (y < 20 && y > 0)
             return i;
@@ -145,17 +141,19 @@ void ScreenController::reset()
 {
     score = 0;
     length = 10;
-    SnakeHead::snake_position_x_y[0] = 300;
-    SnakeHead::snake_position_x_y[1] = 300;
-    SnakeHead::position_x.clear();
-    SnakeHead::position_y.clear();
-    clear_wektor();
-    head_rotate = past_head_rotate = RIGHT;
+    health = 3;
+    Snake::snake_position_x_y[0] = 300;
+    Snake::snake_position_x_y[1] = 300;
+    Snake::position_x.clear();
+    Snake::position_y.clear();
+    Board::remove_food();
+    head_rotate = RIGHT;
+    key_pressed = 72;
 
     txt_score.setString("Score: ");
     txt_score.setPosition(665,10);
     txt_score_number.setPosition(760,10);
-
+    txt_score_number.setFillColor(sf::Color::White);
 
     check_reset = true;
 }
@@ -168,6 +166,7 @@ int ScreenController::interval_food()
         return 200000;
     if (Mode == GOD)
         return 100000;
+    return -1;
 }
 
 

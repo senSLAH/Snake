@@ -7,7 +7,6 @@
 
 
 class ScreenController : public Menu{
-
     unsigned long interval;
     bool check_reset;
 
@@ -18,8 +17,7 @@ public:
     void handleEvent(sf::Event &e);
     int interval_food();
     void reset();
-    short position_x();
-    short position_y(int y);
+    static short position_y(int y);
 };
 
 

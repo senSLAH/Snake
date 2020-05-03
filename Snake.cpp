@@ -1,9 +1,8 @@
-#include "SnakeHead.h"
+#include "Snake.h"
 #include "Board.h"
-#include "Menu.h"
 #include <iostream>
 
-SnakeHead::SnakeHead() : tail(sf::CircleShape(20, 3))
+Snake::Snake()
 {
     if (!head_texture.loadFromFile("../IMG/viper_head.png"))
     {
@@ -13,30 +12,23 @@ SnakeHead::SnakeHead() : tail(sf::CircleShape(20, 3))
 
     score = 0;
     key_pressed = 72;
-    past_head_rotate = head_rotate = RIGHT;
+    head_rotate = RIGHT;
     length = 10;
 
     snake_position_x_y[0] = 300;
     snake_position_x_y[1] = 300;
 
-    middle = sf::RectangleShape(sf::Vector2f(20, 20));
-    middle.setPosition(280, 300);
-    middle.setFillColor(sf::Color::Green);
+    snake = sf::RectangleShape(sf::Vector2f(20, 20));
+    snake.setPosition(280, 300);
+    snake.setFillColor(sf::Color::Yellow);
 
-    speed = 4;
+    speed = 5;
 }
 
-void SnakeHead::set_pressed_button(short &key)
+void Snake::head_rotate_func(short &key)
 {
-    //std::cout << key;
-
-    head_rotate_func(key);
-}
-
-void SnakeHead::head_rotate_func(short &key)
-{
-
     past_head_rotate = head_rotate;
+
     if (key_pressed != key)
     {
         if(key == 71 && past_head_rotate != RIGHT)
@@ -59,7 +51,7 @@ void SnakeHead::head_rotate_func(short &key)
     key_pressed = key;
 }
 
-void SnakeHead::update()
+void Snake::update()
 {
     if (position_x.size() > length)
     {
@@ -103,7 +95,7 @@ void SnakeHead::update()
 
 }
 
-void SnakeHead::check_edges()
+void Snake::check_edges()
 {
     if (snake_position_x_y[1] > 600)
     {
@@ -137,7 +129,7 @@ void SnakeHead::check_edges()
     }
 }
 
-void SnakeHead::draw_snake(sf::RenderWindow &win)
+void Snake::draw_snake(sf::RenderWindow &win)
 {
     for (int i = 0; i < length; ++i)
     {
@@ -147,14 +139,15 @@ void SnakeHead::draw_snake(sf::RenderWindow &win)
         {
             set_state(FINISHED);
         }
-        else{
-            middle.setPosition(position_x[i], position_y[i]);
-            win.draw(middle);
+        else
+        {
+            snake.setPosition(position_x[i], position_y[i]);
+            win.draw(snake);
         }
     }
 }
 
-void SnakeHead::check_collisions_food()
+void Snake::check_collisions_food()
 {
     int vec_size = Board::food.size();
     int max_position_x, min_position_x;
@@ -192,14 +185,20 @@ void SnakeHead::check_collisions_food()
             }
             if(food[i].type == MUSHROOM)
             {
-                score -=3;
-                length -= 1;
+                if (health > 0)
+                {
+                    health -=1;
+                    length -= 1;
+                }
+                else
+                {
+                    set_state(FINISHED);
+                }
             }
             if(food[i].type == TNT)
             {
                 set_state(FINISHED);
             }
-
             add_food();
             remove_food(i);
         }

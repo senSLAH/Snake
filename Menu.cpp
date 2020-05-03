@@ -39,12 +39,21 @@ Menu::Menu(GameMode &mode)
     txt_score.setString("Score: ");
     txt_score.setPosition(665,10);
 
+    txt_health.setFont(font);
+    txt_health.setFillColor(sf::Color::White);
+    txt_health.setString("Health: ");
+    txt_health.setPosition(515,10);
+
     txt_score_number.setFont(font);
     txt_score_number.setFillColor(sf::Color::White);
     txt_score_number.setPosition(760,10);
+
+    txt_health_number.setFont(font);
+    txt_health_number.setFillColor(sf::Color::White);
+    txt_health_number.setPosition(620,10);
 }
 
-std::string Menu::get_string_mode(GameMode & mode) const
+std::string Menu::get_string_mode(GameMode & mode)
 {
     switch (mode)
     {
@@ -128,20 +137,14 @@ void Menu::settings()
     txt_vec.push_back(txt);
 }
 
-void Menu::finished()
-{
-    txt.setString("Your score: ");
-    txt.setPosition(300,300);
-    txt.setFillColor(sf::Color::Yellow);
-
-    txt_vec.push_back(txt);
-
-}
-
 void Menu::how_to_play()
 {
     sprite_keyboard_arrows.setTexture(keyboard_arrows);
-    sprite_keyboard_arrows.setPosition(300,300);
+    sprite_keyboard_arrows.setPosition(300,250);
+    instruction.setFont(font);
+    instruction.setCharacterSize(20);
+    instruction.setString("NORMAL mode: Don't run the snake into his own tail or your snake will die!\n\nHERO mode: In addition, you can eat only 3 Mushrooms if you eat more\nyour snake will die!\n\nGOD mode: In addition, don't run the snake into the wall and don't\neat TNT or your snake will die!");
+    instruction.setPosition(60,420);
 }
 
 void Menu::set_state(short & state)
@@ -153,16 +156,21 @@ void Menu::set_state(short & state)
         if (Mode == NORMAL)
         {
             speed = 4;
+            snake.setFillColor(sf::Color::Green);
+            border_color = sf::Color::Green;
         }
 
         if (Mode == HERO)
         {
             speed = 5;
+            snake.setFillColor(sf::Color::Yellow);
+            border_color = sf::Color::Green;
         }
         if (Mode == GOD)
         {
-            speed = 7;
-            middle.setFillColor(sf::Color::Red);
+            speed = 6;
+            snake.setFillColor(sf::Color::Red);
+            border_color = sf::Color::Red;
         }
     }
     else

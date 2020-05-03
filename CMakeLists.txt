@@ -3,7 +3,7 @@ project(snake)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(snake main.cpp ScreenController.cpp ScreenController.h Menu.cpp Menu.h SnakeHead.cpp SnakeHead.h Board.cpp Board.h)
+add_executable(snake main.cpp ScreenController.cpp ScreenController.h Menu.cpp Menu.h Snake.cpp Snake.h Board.cpp Board.h)
 
 add_compile_options(-Wall -Wextra)
 include_directories(/usr/local/include)
